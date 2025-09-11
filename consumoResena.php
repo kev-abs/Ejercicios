@@ -11,9 +11,8 @@ if ($consumo === false) {
 $resenas = json_decode($consumo);
 
 foreach ($resenas as $resena) {
-     echo $resena;
+    echo $resena;
 
-    // extraer la calificación (4ª parte de la cadena)
     $partes = explode(" | ", $resena);
     $calificacion = (int)$partes[3];
 
