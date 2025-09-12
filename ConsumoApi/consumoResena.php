@@ -2,24 +2,26 @@
 
 $url = "http://localhost:8080/resena";
 
+
 $consumo = file_get_contents($url);
 
 if ($consumo === false) {
-    die("Error al consumir el servicio .");
+    die("Error al consumir el servicio.\n");
 }
 
 $resenas = json_decode($consumo);
 
+$opcion = readline("Ingresa alguna opción para ver reseñas: v (todas), b (buenas), m (malas): ");
+
 foreach ($resenas as $resena) {
-    echo $resena;
+    $datos = explode(" | ", $resena);
 
-    $partes = explode(" | ", $resena);
-    $calificacion = (int)$partes[3];
+    $calificacion = (int)$datos[3];
 
-    if ($calificacion >= 5) {
-        echo " → BUENA RESEÑA\n";
-    } else {
-        echo " → MALA RESEÑA\n";
+    $tipo = ($calificacion >= 5) ? "b" : "m";
+
+    if ($opcion === "v" || $opcion === $tipo) {
+        echo $resena . " → " . (($tipo === "b") ? "BUENA" : "MALA") . " RESEÑA\n";
     }
 
 
