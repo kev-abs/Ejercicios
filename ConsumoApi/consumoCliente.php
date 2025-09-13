@@ -34,4 +34,57 @@ if ($id >=1 && $id <=10){
 else {
     echo ("ID fuera de rango.");
 }
+
+echo ("================Metodo Post======================")."\n";
+//Metodo Post
+
+$respuesta = readline("Desea agregar algún usuario? s para si n para no: ");
+
+if ($respuesta === "s"){
+    $nombre = readline("Ingrese su nombre: ");
+    $correo = readline("Ingrese su correo: ");
+    $contrasena = readline("Ingrese su contraseña: ");
+    $documento = readline("Ingrese su numero de documento: ");
+    $telefono = readline("Ingrese su numero telefonico: ");
+
+    $datos = array(
+        "nombre"     => $nombre,
+        "correo"     => $correo,
+        "contrasena" => $contrasena,
+        "documento"  => $documento,
+        "telefono"   => $telefono
+    );
+
+    $data_json = json_encode($datos);
+
+    $proceso = curl_init($url);
+
+    curl_setopt($proceso, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($proceso, CURLOPT_POSTFIELDS, $data_json);
+    curl_setopt($proceso, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($proceso,CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+        'Content-Length: ' .
+        strlen($data_json)
+    ));
+
+    $respuestapet = curl_exec($proceso);
+
+    $http_code = curl_getinfo($proceso, CURLINFO_HTTP_CODE);
+
+    if (curl_errno($proceso)){
+        die("Error en la petición Post". curl_errno($proceso)."\n");
+    }
+    curl_close($proceso);
+
+    if($http_code === 200){
+        echo ("Usuario guardado correctamente respuesta (200)");
+    }
+    else{
+        echo ("Error en el servidor respuesta $http_code");
+    }
+}
+else{
+    echo ("Hasta un proximo vistazo.");
+}
 ?>
