@@ -37,4 +37,49 @@ foreach ($cupon as $c) {
         echo "ID: $id | Código: $codigo | Descuento: $descuento% | Fecha: $fecha\n";
     }
 }
+
+$respuesta = readline("¿Desea agregar un nuevo cupon? Coloca s para (SI) n para no (NO): ");
+
+if ($respuesta === "s") {
+    $codigo = readline("Ingrese codigo: ");
+    $descuento = readline("Ingrese descuento: ");
+    $fecha = readline("Ingrese fecha de expiración (YYYY-MM-DD): ");
+
+    $datos = array(
+        "codigo" => $codigo,
+        "descuento" => (float)$descuento,
+        "fecha_Expiracion" => $fecha
+    );
+
+    $data_json = json_encode($datos);
+
+    $proceso = curl_init($url);
+
+    curl_setopt($proceso, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($proceso, CURLOPT_POSTFIELDS, $data_json);
+    curl_setopt($proceso, CURLOPT_RETURNTRANSFER, true);
+
+    curl_setopt($proceso, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+        'Content-Length: ' . strlen($data_json)
+    ));
+    
+
+    $respuestapet = curl_exec($proceso);
+
+    $http_code = curl_getinfo($proceso, CURLINFO_HTTP_CODE);
+
+    if (curl_errno($proceso)) {
+        die("Error en la petición POST: " . curl_error($proceso) . "\n");
+    }
+    curl_close($proceso);
+
+    if ($http_code === 200) {
+        echo "Usuario guardado correctamente. Respuesta (200)\n";
+    } else {
+        echo "Error en el servidor. Respuesta $http_code\n";
+        echo "Respuesta del servidor: $respuestapet\n";
+    }
+}
+
 ?>
