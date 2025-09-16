@@ -38,7 +38,7 @@ else {
 echo ("================Metodo Post======================")."\n";
 //Metodo Post
 
-$respuesta = readline("Desea agregar algún usuario? s para si n para no: ");
+$respuesta = readline("Desea agregar algún usuario? Coloque s para si n para no: ");
 
 if ($respuesta === "s"){
     $nombre = readline("Ingrese su nombre: ");
