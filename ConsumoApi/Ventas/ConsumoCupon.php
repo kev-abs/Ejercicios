@@ -17,6 +17,7 @@ echo "Elige una opción:\n";
 echo "1. Mostrar todos los cupones\n";
 echo "2. Mostrar solo los cupones con 20% de descuento\n";
 echo "3. Mostrar cupones con más de 30% de descuento\n";
+echo "4. Agregar un nuevo cupon\n";
 
 $opcion = (int) readline("Opción: ");
 
@@ -38,9 +39,9 @@ foreach ($cupon as $c) {
     }
 }
 
-$respuesta = readline("¿Desea agregar un nuevo cupon? Coloca s para (SI) n para no (NO): ");
+//POST
 
-if ($respuesta === "s") {
+if ($opcion === "4") {
     $codigo = readline("Ingrese codigo: ");
     $descuento = readline("Ingrese descuento: ");
     $fecha = readline("Ingrese fecha de expiración (YYYY-MM-DD): ");
