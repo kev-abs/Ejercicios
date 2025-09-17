@@ -54,6 +54,7 @@ if ($respuesta === 's') {
 
     $data_json = json_encode($datos);
 
+    //peticion curl
     $proceso = curl_init($url);
 
 
@@ -65,8 +66,10 @@ if ($respuesta === 's') {
         "Content-Length: " . strlen($data_json))
     );
 
+    //ejecucion
     $respuestapet = curl_exec($proceso);
 
+    //codigo http
     $http_code = curl_getinfo($proceso, CURLINFO_HTTP_CODE);
 
     if(curl_errno($proceso )){
