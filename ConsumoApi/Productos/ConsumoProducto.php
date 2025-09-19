@@ -1,7 +1,7 @@
 <?php
 require_once "ConsumoApi/Confi.php";
 
-$consumo = file_get_contents($url);
+$consumo = file_get_contents($urlProducto);
 
 if ($consumo === FALSE) {
     die("Error al consumir el servicio.");
@@ -55,7 +55,7 @@ if ($respuesta === 's') {
     $data_json = json_encode($datos);
 
     //peticion curl
-    $proceso = curl_init($url);
+    $proceso = curl_init($urlProducto);
 
 
     curl_setopt($proceso, CURLOPT_CUSTOMREQUEST, "POST");
@@ -104,7 +104,7 @@ if ($respuesta === "s") {
     $data_json = json_encode($datos);
 
     //peticion curl
-    $proceso = curl_init($url . '/' . $id);
+    $proceso = curl_init($urlProducto . '/' . $id);
     curl_setopt($proceso, CURLOPT_CUSTOMREQUEST, "PUT");
     curl_setopt($proceso, CURLOPT_POSTFIELDS, $data_json);
     curl_setopt($proceso, CURLOPT_RETURNTRANSFER, true);
@@ -132,7 +132,7 @@ if ($respuesta === "s") {
     $id = readline("Ingrese el ID del producto a eliminar: ");
 
     //peticion curl
-    $proceso = curl_init($url . '/' . $id);
+    $proceso = curl_init($urlProducto . '/' . $id);
     curl_setopt($proceso, CURLOPT_CUSTOMREQUEST, "DELETE");
     curl_setopt($proceso, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($proceso, CURLOPT_HTTPHEADER, array(
@@ -152,6 +152,7 @@ if ($respuesta === "s") {
         echo "Error al eliminar producto. $http_code\n";
     }
 }
+
 echo "respuesta del servidor:\n";
 var_dump($respuestapet);
 

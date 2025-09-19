@@ -134,6 +134,7 @@ $direccion = trim(implode(" ", array_slice($partes, 6)));
         } else {
             echo "Error al eliminar proveedor. Código HTTP: $http_code\n";
     }
+    
 echo "respuesta del servidor:\n";
 var_dump($respuestapet);
 }
