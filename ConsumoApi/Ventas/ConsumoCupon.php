@@ -1,8 +1,8 @@
 <?php
-$url = "http://localhost:8080/cupon";
+require_once __DIR__ . '/../Confi.php';
 
 
-$consumo = file_get_contents($url);
+$consumo = file_get_contents($urlCupon);
 
 if ($consumo === FALSE) {
     die("Error al consumir el servicio.");
@@ -56,7 +56,7 @@ if ($opcion === "4") {
 
     $data_json = json_encode($datos);
 
-    $proceso = curl_init($url);
+    $proceso = curl_init($urlCupon);
 
     curl_setopt($proceso, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($proceso, CURLOPT_POSTFIELDS, $data_json);
@@ -103,7 +103,7 @@ if($opcion == "5") {
 
     $data_json = json_encode($datos);
 
-    $proceso = curl_init("$url/$id");
+    $proceso = curl_init("$urlCupon/$id");
 
     curl_setopt($proceso, CURLOPT_CUSTOMREQUEST, "PUT");
     curl_setopt($proceso, CURLOPT_POSTFIELDS, $data_json);
@@ -137,7 +137,7 @@ if($opcion == "5") {
 if ($opcion == 6) {
     $id = readline("Ingrese ID del cupon a eliminar: ");
 
-    $proceso = curl_init("$url/$id");
+    $proceso = curl_init("$urlCupon/$id");
     curl_setopt($proceso, CURLOPT_CUSTOMREQUEST, "DELETE");
     curl_setopt($proceso, CURLOPT_RETURNTRANSFER, true);
 
