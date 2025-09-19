@@ -1,6 +1,5 @@
 <?php
-
-$url = "http://localhost:8080/ingresocompra";
+require_once "ConsumoApi/Confi.php";
 
 echo "===== MENÚ INGRESOS =====\n";
 echo "1. Listar ingresos\n";
@@ -101,7 +100,7 @@ if ($opcionMenu == "3") {
 
     $data_json = json_encode($datosActualizados);
 
-    $ch = curl_init("http://localhost:8080/ingresocompra/$idIngreso");
+    $ch = curl_init($url . "/" . $idIngreso);    
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -123,7 +122,7 @@ if ($opcionMenu == "3") {
 if ($opcionMenu == "4") {
     $idIngreso = readline("ID del ingreso a eliminar: ");
 
-    $ch = curl_init("http://localhost:8080/ingresocompra/$idIngreso");
+    $ch = curl_init($url . "/" . $idIngreso);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
