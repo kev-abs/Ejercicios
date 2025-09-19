@@ -1,4 +1,7 @@
 <?php
+
+require_once __DIR__ . "/../Confi.php";
+
 // Mostrar opciones de CRUD
 echo "Seleccione una opción:\n";
 echo "1. Ver GET\n";
@@ -9,10 +12,9 @@ echo "4. Eliminar Datos\n";
 $opcion = (int) readline("Ingrese una opción (1-4): ");
 
 if ($opcion === 1) {
-    $url = "http://localhost:8080/empleados";
 
     echo ("===============================Metodo Get==========================================\n");
-    $consumo = file_get_contents($url);
+    $consumo = file_get_contents($urlEmpleado);
 
     if ($consumo === false) {
         die("Error al consumir el servicio de empleados");
@@ -92,7 +94,7 @@ elseif ($opcion === 2) {
 
         $data_json = json_encode($datos);
 
-        $proceso = curl_init($url);
+        $proceso = curl_init($urlEmpleado);
         curl_setopt($proceso, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($proceso, CURLOPT_POSTFIELDS, $data_json);
         curl_setopt($proceso, CURLOPT_RETURNTRANSFER, true);
@@ -122,7 +124,6 @@ elseif ($opcion === 3) {
     echo ("\n==========================================Metodo Put================================================\n");
 
     $id = readline("Ingrese el ID del empleado a actualizar: ");
-    $url = "http://localhost:8080/empleados/$id";
 
     $respuesta = readline("¿Desea actualizar este empleado? Coloque s para sí, n para no: ");
 
@@ -133,17 +134,19 @@ elseif ($opcion === 3) {
         $estado = readline("Ingrese el nuevo estado: ");
         $contrasena = readline("Ingrese la contraseña: ");
 
+        $contrasenaHash = password_hash($contrasena, PASSWORD_BCRYPT);
+
         $datos = array(
             "nombre"     => $nombre,
             "cargo"      => $cargo,
             "correo"     => $correo,
             "estado"     => $estado,
-            "contrasena" => $contrasena
+            "contrasena" => $contrasenaHash
         );
 
         $data_json = json_encode($datos);
 
-        $proceso = curl_init($url);
+        $proceso = curl_init($urlEmpleado . "/$id");
         curl_setopt($proceso, CURLOPT_CUSTOMREQUEST, "PUT");
         curl_setopt($proceso, CURLOPT_POSTFIELDS, $data_json);
         curl_setopt($proceso, CURLOPT_RETURNTRANSFER, true);
@@ -173,12 +176,11 @@ elseif ($opcion === 4) {
     echo ("\n==========================================Metodo Delete================================================\n");
 
     $id = readline("Ingrese el ID del empleado a eliminar: ");
-    $url = "http://localhost:8080/empleados/$id";
 
     $respuesta = readline("¿Está seguro que desea eliminar este empleado? Coloque s para sí, n para no: ");
 
     if ($respuesta === "s") {
-        $proceso = curl_init($url);
+        $proceso = curl_init($urlEmpleado . "/$id");
         curl_setopt($proceso, CURLOPT_CUSTOMREQUEST, "DELETE");
         curl_setopt($proceso, CURLOPT_RETURNTRANSFER, true);
 
