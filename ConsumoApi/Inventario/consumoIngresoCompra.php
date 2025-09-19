@@ -24,7 +24,7 @@ if ($opcionMenu == "2") {
 
     $data_json = json_encode($nuevoIngreso);
 
-    $ch = curl_init($url);
+    $ch = curl_init($urlIngresoCompra);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -50,7 +50,7 @@ if ($opcionMenu == "2") {
 
 // ===== GET =====
 if ($opcionMenu == "1") {
-    $ch = curl_init($url);
+    $ch = curl_init($urlIngresoCompra);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
